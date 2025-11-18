@@ -142,7 +142,11 @@ if (NOT TARGET ggml)
     endif()
 endif()
 
-add_subdirectory(thirdparty)
+if(MSVC)
+    target_compile_options(stable-diffusion PRIVATE /bigobj)
+endif ()
+
+    add_subdirectory(thirdparty)
 
 target_link_libraries(${SD_LIB} PUBLIC ggml zip)
 target_include_directories(${SD_LIB} PUBLIC . thirdparty)

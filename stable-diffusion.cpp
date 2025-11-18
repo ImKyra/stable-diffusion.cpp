@@ -967,17 +967,26 @@ public:
             is_high_noise = true;
             LOG_DEBUG("high noise lora: %s", lora_name.c_str());
         }
-        std::string st_file_path   = path_join(lora_model_dir, lora_name + ".safetensors");
-        std::string ckpt_file_path = path_join(lora_model_dir, lora_name + ".ckpt");
+
+        std::vector<std::string> extensions = {".safetensors", ".ckpt"};
+        std::string st_file_path   = path_join(lora_model_dir, lora_name + extensions[0]);
+        std::string ckpt_file_path = path_join(lora_model_dir, lora_name + extensions[1]);
         std::string file_path;
         if (file_exists(st_file_path)) {
             file_path = st_file_path;
         } else if (file_exists(ckpt_file_path)) {
             file_path = ckpt_file_path;
         } else {
-            LOG_WARN("can not find %s or %s for lora %s", st_file_path.c_str(), ckpt_file_path.c_str(), lora_name.c_str());
-            return nullptr;
+            file_path = get_filepath_from_dir(lora_model_dir, lora_name, &extensions);
+
+            if (file_path.empty()) {
+                LOG_WARN("can not find %s or %s for lora %s in main directory or subdirectories",
+                        st_file_path.c_str(), ckpt_file_path.c_str(), lora_name.c_str());
+                return nullptr;
+            }
+            LOG_INFO("found lora %s in subdirectory: %s", lora_name.c_str(), file_path.c_str());
         }
+
         auto lora = std::make_shared<LoraModel>(lora_id, backend, file_path, is_high_noise ? "model.high_noise_" : "", version);
         if (!lora->load_from_file(n_threads, lora_tensor_filter)) {
             LOG_WARN("load lora tensors from %s failed", file_path.c_str());

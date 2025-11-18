@@ -18,6 +18,8 @@ std::string format(const char* fmt, ...);
 
 void replace_all_chars(std::string& str, char target, char replacement);
 
+std::string get_filepath_from_dir(const std::string& dir, const std::string& filename, const std::vector<std::string>* extensions);
+
 int round_up_to(int value, int base);
 
 bool file_exists(const std::string& filename);

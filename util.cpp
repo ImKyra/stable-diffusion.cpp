@@ -138,7 +138,6 @@ std::string get_filepath_from_dir(const std::string& dir, const std::string& fil
     return get_filepath_from_dir_recursive(dir, filename, extensions);
 }
 
-
 bool file_exists(const std::string& filename) {
     DWORD attributes = GetFileAttributesA(filename.c_str());
     return (attributes != INVALID_FILE_ATTRIBUTES && !(attributes & FILE_ATTRIBUTE_DIRECTORY));
