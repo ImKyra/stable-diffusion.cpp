@@ -33,6 +33,7 @@ Options:
   -p, --prompt <string>                    the prompt to render
   -n, --negative-prompt <string>           the negative prompt (default: "")
   --preview-path <string>                  path to write preview image to (default: ./preview.png)
+  --easycache <string>                     enable EasyCache for DiT models, accepts optional "threshold,start_percent,end_percent" values (defaults to 0.2,0.15,0.95)
   --upscale-model <string>                 path to esrgan model.
   -t, --threads <int>                      number of threads to use during computation (default: -1). If threads <= 0, then threads will be set to the number of
                                            CPU physical cores
@@ -106,8 +107,8 @@ Options:
                                            compatibility issues with quantized parameters, but it usually offers faster inference
                                            speed and, in some cases, lower memory usage. The at_runtime mode, on the other
                                            hand, is exactly the opposite.
-  --scheduler                              denoiser sigma scheduler, one of [discrete, karras, exponential, ays, gits, smoothstep, sgm_uniform, simple], default:
-                                           discrete
+  --scheduler                              denoiser sigma scheduler, one of [discrete, karras, exponential, ays, gits, smoothstep, sgm_uniform, simple, lcm],
+                                           default: discrete
   --skip-layers                            layers to skip for SLG steps (default: [7,8,9])
   --high-noise-sampling-method             (high noise) sampling method, one of [euler, euler_a, heun, dpm2, dpm++2s_a, dpm++2m, dpm++2mv2, ipndm, ipndm_v, lcm,
                                            ddim_trailing, tcd] default: euler for Flux/SD3/Wan, euler_a otherwise
